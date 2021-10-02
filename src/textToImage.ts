@@ -75,7 +75,7 @@ const createTextData = (
     textX = maxWidth / 2;
   }
   if (['right', 'end'].includes(textAlign.toLowerCase())) {
-    textX = maxWidth - (fontSize / 5);
+    textX = maxWidth;
   }
   textContext.textAlign = textAlign;
 
