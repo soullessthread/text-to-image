@@ -35,7 +35,7 @@ const createTextData = (text, config, canvas) => {
         textX = maxWidth / 2;
     }
     if (['right', 'end'].includes(textAlign.toLowerCase())) {
-        textX = maxWidth - (fontSize / 5);
+        textX = maxWidth - (fontSize / 3);
     }
     textContext.textAlign = textAlign;
     textContext.fillStyle = bgColor;
