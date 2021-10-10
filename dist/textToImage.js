@@ -119,7 +119,7 @@ const createCanvas = (content, conf) => {
 const generate = async (content, config) => {
     const conf = { ...defaults, ...config };
     const canvas = createCanvas(content, conf);
-    const dataUrl = canvas.toDataURL();
+    const dataUrl = canvas.toDataURL('image/webp');
     if (conf.debug) {
         const fileName = conf.debugFilename ||
             `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
@@ -131,7 +131,7 @@ exports.generate = generate;
 const generateSync = (content, config) => {
     const conf = { ...defaults, ...config };
     const canvas = createCanvas(content, conf);
-    const dataUrl = canvas.toDataURL();
+    const dataUrl = canvas.toDataURL('image/webp');
     if (conf.debug) {
         const fileName = conf.debugFilename ||
             `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
