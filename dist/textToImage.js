@@ -57,8 +57,8 @@ const createTextData = (text, config, canvas) => {
             words.splice(n + 1, 0, parts.join('\n'));
             wordCount += 1;
         }
-        const testLine = `${line} ${word}`.trim() + (fontSize / 3);
-        const testLineWidth = textContext.measureText(testLine).width;
+        const testLine = `${line} ${word}`.trim();
+        const testLineWidth = textContext.measureText(testLine).width + (fontSize / 3);
         if (addNewLines.indexOf(n) > -1 || (testLineWidth > maxWidth && n > 0)) {
             textContext.fillText(line, textX, textY);
             line = word;
