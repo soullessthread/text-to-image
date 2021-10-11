@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateSync = exports.generate = void 0;
 const fs_1 = __importDefault(require("fs"));
+const sharp = require('sharp');
 const canvas_1 = __importDefault(require("canvas"));
 const defaults = {
     bgColor: '#fff',
@@ -57,7 +58,7 @@ const createTextData = (text, config, canvas) => {
             wordCount += 1;
         }
         const testLine = `${line} ${word}`.trim();
-        const testLineWidth = textContext.measureText(testLine).width + (fontSize / 3);
+        const testLineWidth = textContext.measureText(testLine).width;
         if (addNewLines.indexOf(n) > -1 || (testLineWidth > maxWidth && n > 0)) {
             textContext.fillText(line, textX, textY);
             line = word;
@@ -119,19 +120,20 @@ const createCanvas = (content, conf) => {
 const generate = async (content, config) => {
     const conf = { ...defaults, ...config };
     const canvas = createCanvas(content, conf);
-    const dataUrl = canvas.toDataURL('image/webp');
     if (conf.debug) {
         const fileName = conf.debugFilename ||
             `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
         await fs_1.default.promises.writeFile(fileName, canvas.toBuffer());
     }
-    return dataUrl;
+
+    return sharp(canvas.toBuffer()).toFormat(sharp.format.webp);
+    // return dataUrl;
 };
 exports.generate = generate;
 const generateSync = (content, config) => {
     const conf = { ...defaults, ...config };
     const canvas = createCanvas(content, conf);
-    const dataUrl = canvas.toDataURL('image/webp');
+    const dataUrl = canvas.toDataURL();
     if (conf.debug) {
         const fileName = conf.debugFilename ||
             `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;
