@@ -57,7 +57,7 @@ const createTextData = (text, config, canvas) => {
             words.splice(n + 1, 0, parts.join('\n'));
             wordCount += 1;
         }
-        const testLine = `${line} ${word}`.trim();
+        const testLine = `${line} ${word}`.replace(/^ +/, '').replace(/ +$/, '');
         const testLineWidth = textContext.measureText(testLine).width + (fontSize / 3);
         if (addNewLines.indexOf(n) > -1 || (testLineWidth > maxWidth && n > 0)) {
             textContext.fillText(line, textX, textY);
@@ -104,6 +104,7 @@ const createCanvas = (content, conf) => {
         textAlign: conf.textAlign,
     }, canvas);
     const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalAlpha = 1;
     ctx.fillStyle = conf.bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -120,6 +121,7 @@ const createCanvas = (content, conf) => {
 const generate = async (content, config) => {
     const conf = { ...defaults, ...config };
     const canvas = createCanvas(content, conf);
+    // const dataUrl = canvas.toDataURL();
     if (conf.debug) {
         const fileName = conf.debugFilename ||
             `${new Date().toISOString().replace(/[\W.]/g, '')}.png`;

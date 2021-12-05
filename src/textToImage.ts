@@ -114,7 +114,7 @@ const createTextData = (
     // if its width exceeds the maxWidth
     // also trim the testLine since `line` will be empty in the beginning,
     // causing a leading white space character otherwise
-    const testLine = `${line} ${word}`.trim();
+    const testLine = `${line} ${word}`.replace(/^ +/, '').replace(/ +$/, '');
     const testLineWidth = textContext.measureText(testLine).width;
 
     // if the line is marked as starting with a newline
@@ -204,6 +204,9 @@ const createCanvas = (content: string, conf: GenerateOptionsRequired) => {
   );
   const ctx = canvas.getContext('2d');
 
+  // the canvas will have the text from the first pass on it,
+  // so start by clearing the whole canvas and start from a clean slate
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.globalAlpha = 1;
   ctx.fillStyle = conf.bgColor;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
